@@ -4,6 +4,7 @@ class Parser:
     @staticmethod
     def init_script(text: str) -> Script:
         script = Script(text)
+        script.turn_all_semicolon_into_wrapper()
         def init_labels(script: Script):
             script.index = 0
             while(script.index < script.len_text):

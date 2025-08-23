@@ -1,17 +1,28 @@
 from core.parser import Parser
 from core.memory.script import Script
 
-text = '''test111</ say I love  Rust /></say    something/> 111  123</say </ />
+text = '''
+---render---
+render start
+</say -----log-----/>
 ---
 </goto label2/>
-</label label1/>this will not render
-</label label2/>but this will
+</label label1/>this wont be rendered</say i love rust/>
+</label label2/>this will be rendered
 ---
-some text</ exit />
+</goto label3/>
+text
+</label label3;say something;goto label4/>
+</label label4/>
+---
+render end
+</say ----endlog---/>
+----exit----
+</ exit />
 some other text'''
 
 parser = Parser()
 test_script = parser.init_script(text)
-print(test_script.to_dict())
 text = parser.next(test_script)
+print('-------------------------------------------------------')
 print(text)

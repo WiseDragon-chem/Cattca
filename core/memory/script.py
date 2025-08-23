@@ -11,7 +11,6 @@ class Script:
                       必须是以下四种之一:
                       - "CONTINUE": 表示继续执行。
                       - "AWAIT": 表示等待外部信号。
-                      - "ERROR": 表示发生错误。
                       - "EXIT": 表示终止程序。
             wrapper (tuple[str, str]): “命令”所在括号的样式
         '''
@@ -72,3 +71,21 @@ class Script:
         
     def to_dict(self):
         return {'script_text': self.script_text, 'index': self.index, 'status': self.status, 'len_text': self.len_text, 'wrapper': self.wrapper, 'labels': self.labels}
+    
+    def turn_all_semicolon_into_wrapper(self): # 把所有的 '</''/>'内的 ';' 变成 '/></'
+        self.index = 0
+        tmp_str_lst = ['']
+        while self.index < self.len_text:
+            if self.check_is_left_wrapper():
+                while self.index<self.len_text and not self.check_is_right_wrapper():
+                    if self.script_text[self.index] == ';':
+                        tmp_str_lst.append(self.wrapper[1] + self.wrapper[0])
+                    else:
+                        tmp_str_lst.append(self.script_text[self.index])
+                    self.index += 1
+            tmp_str_lst[len(tmp_str_lst) -1] += self.script_text[self.index]
+            self.index += 1
+        self.index = 0
+        self.script_text = ''.join(tmp_str_lst)
+        self.len_text = len(self.script_text)
+        return self.script_text
