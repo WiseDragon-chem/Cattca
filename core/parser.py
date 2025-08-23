@@ -1,6 +1,22 @@
 from .memory.script import Script
-from .commands.parser import execute_line
+from .commands.parser import execute_line, parse_line
 class Parser:
+    @staticmethod
+    def init_script(text: str) -> Script:
+        script = Script(text)
+        def init_labels(script: Script):
+            script.index = 0
+            while(script.index < script.len_text):
+                if script.check_is_left_wrapper():
+                    command = script.get_command()
+                    command_name, args = parse_line(command)
+                    if command_name == 'label':
+                        execute_line(command, script)
+                script.index+=1
+            script.index = 0
+        init_labels(script)
+        return script
+
     @staticmethod
     def next(script: Script):
         try:
@@ -17,6 +33,16 @@ class Parser:
             print(f'SyntaxError: {e}')
         except ValueError as e:
             print(f'ValueError: {e}')
+        except IndexError as e:
+            print(f'IndexError: {e}')
+        except KeyError as e:
+            print(f'KeyError: {e}')
+        except TypeError as e:
+            print(f'TypeError: {e}')
+        except NameError as e:
+            print(f'NameError: {e}')
+        except AttributeError as e:
+            print(f'AttributeError: {e}')
         except Exception as e:
             print(f'Exception: {e}')
 

@@ -1,5 +1,7 @@
+from .storage import label_lst
+
 class Script:
-    def __init__(self, script_text: str, index: int = 0, status: str = 'AWAIT', wrapper: tuple[str, str] = ('</', '/>')):
+    def __init__(self, script_text: str, index: int = 0, status: str = 'CONTINUE', wrapper: tuple[str, str] = ('</', '/>')):
         '''
         初始化脚本。
         Args:
@@ -18,6 +20,7 @@ class Script:
         self.status = status
         self.len_text = len(script_text)
         self.wrapper = wrapper
+        self.labels = label_lst()
     
     def get_char(self):
         return self.script_text[self.index]
@@ -67,3 +70,5 @@ class Script:
         self.index = command_end_index + len_right
         return command_text
         
+    def to_dict(self):
+        return {'script_text': self.script_text, 'index': self.index, 'status': self.status, 'len_text': self.len_text, 'wrapper': self.wrapper, 'labels': self.labels}
