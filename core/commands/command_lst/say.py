@@ -8,6 +8,6 @@ class SayCommand(Command):
     @override
     def execute(self):
         if not self.args:
-            raise ValueError('Missing parameters')
+            raise TypeError('Missing parameters')
             return
         print(" ".join(self.args))

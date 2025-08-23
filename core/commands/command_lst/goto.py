@@ -8,7 +8,7 @@ class SayCommand(Command):
     @override
     def execute(self):
         if not len(self.args) == 1:
-            raise IndexError(f'get {len(self.args)} label{"s" if len(self.args) > 1 else ""}, expect 1')
+            raise TypexError(f'get {len(self.args)} label{"s" if len(self.args) > 1 else ""}, expect 1')
             return
         index = self.script.labels.get_index(self.args[0])
         self.script.index = index
