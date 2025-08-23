@@ -15,6 +15,11 @@ class Parser:
             return output
         except SyntaxError as e:
             print(f'SyntaxError: {e}')
+        except ValueError as e:
+            print(f'ValueError: {e}')
+        except Exception as e:
+            print(f'Exception: {e}')
+
 
     @staticmethod
     def _get_text_til_command(script: Script) -> str:
