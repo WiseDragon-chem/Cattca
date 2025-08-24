@@ -1,11 +1,15 @@
 from core.parser import Parser
 
 text = '''</
-log '111' +'222';
-log 1+ 2;
-log 3==3;
-log '222'== '22' + '2';
-log true + 3;
+let a = 1;
+log a;
+let b = 2;
+log a+b;
+log a + b == 2;
+log a + b == 3;
+let c = true;
+log a + c;
+log c;
 />'''
 
 parser = Parser()
