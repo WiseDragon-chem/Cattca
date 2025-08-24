@@ -1,4 +1,5 @@
 from .label import label_lst
+from .variable_system import VariableTable
 
 class Script:
     def __init__(self, script_text: str, index: int = 0, status: str = 'CONTINUE', wrapper: tuple[str, str] = ('</', '/>')):
@@ -20,6 +21,7 @@ class Script:
         self.len_text = len(script_text)
         self.wrapper = wrapper
         self.labels = label_lst()
+        self.variables = VariableTable()
     
     def get_char(self):
         return self.script_text[self.index]

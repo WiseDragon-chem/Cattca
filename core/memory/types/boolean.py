@@ -7,13 +7,17 @@ class CattcaBoolean(CattcaObject):
     def __init__(self, value: bool):
         super().__init__("number", value)
 
-    def __add__(self, other: CattcaObject):
+    def to_number(self):
         from .number import CattcaNumber
         temp_number = CattcaNumber(int(self.value))
-        return temp_number + other
+        return temp_number
+    
+    @override
+    def __str__(self):
+        return 'true' if self.value else 'false'
+    
+    def __add__(self, other: CattcaObject):
+        return self.to_number() + other
 
     def __lt__(self, other: CattcaObject):
-        if not isinstance(other, CattcaObject):
-            return NotImplemented
-        if other.type == "number":
-            return self.value < other.value
+        return self.to_number() < other
