@@ -1,4 +1,4 @@
-from .storage import label_lst
+from .label import label_lst
 
 class Script:
     def __init__(self, script_text: str, index: int = 0, status: str = 'CONTINUE', wrapper: tuple[str, str] = ('</', '/>')):
