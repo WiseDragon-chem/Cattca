@@ -13,7 +13,8 @@ class Parser:
                     command_name, args = parse_line(command)
                     if command_name == 'label':
                         execute_line(command, script)
-                script.index+=1
+                else:
+                    script.index+=1
             script.index = 0
         init_labels(script)
         return script
