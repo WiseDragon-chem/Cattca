@@ -6,7 +6,7 @@ String = TypeRegistry.get_type("string")
 
 a = Num(5)
 b = Bool(True)
-c = String('114')
+c = String('11\n4')
 d = String('224')
 
 print((b+a).value)

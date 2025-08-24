@@ -1,4 +1,5 @@
 from typing import List, Tuple, Optional
+from ..memory.object import CattcaObject
 from ..memory.script import Script
 from . import COMMANDS
 
@@ -23,6 +24,10 @@ def execute_line(line: str, script: Script) -> None:
         return
     if command_name in COMMANDS:
         command_instance = COMMANDS[command_name](args, script)
-        command_instance.execute()
+        output = command_instance.execute()
+        if not isinstance(output, CattcaObject):
+            return
+        output = str(output)
+        return output
     else:
         raise SyntaxError(f"Unknown command: {command_name}")

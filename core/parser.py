@@ -29,7 +29,9 @@ class Parser:
                     script.status = 'EXIT'
                     break
                 command = script.get_command()
-                execute_line(command, script)
+                temp_output = execute_line(command, script)
+                if temp_output != None:
+                    output += temp_output
             return output
         except SyntaxError as e:
             print(f'SyntaxError: {e}')
