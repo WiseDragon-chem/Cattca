@@ -12,7 +12,3 @@ class label_lst:
     
     def to_dict(self):
         return self.labels
-
-class variables:
-    def __init__(self):
-        pass
