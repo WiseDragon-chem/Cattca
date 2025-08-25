@@ -6,7 +6,7 @@ from ...utils.format_checker import FormatChecker
 
 
 @register_command("let")
-class SayCommand(Command):
+class LetCommand(Command):
     """使用let命令声明（并赋值）一个变量"""
     @override
     def execute(self):

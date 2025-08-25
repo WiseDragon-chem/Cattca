@@ -4,7 +4,7 @@ from typing import override
 from ...utils.formula_parser import FormulaParser
 
 @register_command("apply")
-class SayCommand(Command):
+class ApplyCommand(Command):
     """将字符串添加到output中"""
     @override
     def execute(self):

@@ -1,22 +1,26 @@
 from .memory.script import Script
 from .commands.parser import execute_line, parse_line
 class Parser:
+
     @staticmethod
     def init_script(text: str) -> Script:
-        script = Script(text)
-        script.turn_all_semicolon_into_wrapper()
-        def init_labels(script: Script):
-            script.index = 0
-            while(script.index < script.len_text):
-                if script.check_is_left_wrapper():
-                    command = script.get_command()
-                    command_name, args = parse_line(command)
-                    if command_name == 'label':
-                        execute_line(command, script)
-                else:
-                    script.index+=1
-            script.index = 0
-        init_labels(script)
+        try:
+            script = Script(text)
+            script.turn_all_semicolon_into_wrapper()
+            def init_labels(script: Script):
+                script.index = 0
+                while(script.index < script.len_text):
+                    if script.check_is_left_wrapper():
+                        command = script.get_command()
+                        command_name, args = parse_line(command)
+                        if command_name == 'label':
+                            execute_line(command, script)
+                    else:
+                        script.index+=1
+                script.index = 0
+            init_labels(script)
+        except SyntaxError as e:
+            print(f'SyntaxError: {e}')
         return script
 
     @staticmethod

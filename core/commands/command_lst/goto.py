@@ -3,7 +3,7 @@ from .. import register_command
 from typing import override
 
 @register_command("goto")
-class SayCommand(Command):
+class GotoCommand(Command):
     """goto 命令，跳转到对应的label"""
     @override
     def execute(self):

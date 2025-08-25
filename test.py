@@ -3,12 +3,14 @@ from core.memory.script import Script
 
 text = '''
 </
+let let = true;
 let a = 1;
-let b = a + 1 == 2;
-log a;
-log b;
+goto let;
+label let;
+log 123;
+label let;
 
-/>
+
 '''
 
 parser = Parser()

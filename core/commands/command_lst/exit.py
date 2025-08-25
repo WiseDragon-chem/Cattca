@@ -3,7 +3,7 @@ from .. import register_command
 from typing import override
 
 @register_command("exit")
-class SayCommand(Command):
+class ExitCommand(Command):
     """exit命令，结束当前进程"""
     @override
     def execute(self):

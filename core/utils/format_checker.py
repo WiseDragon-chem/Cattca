@@ -2,6 +2,7 @@ class FormatChecker:
 
     @staticmethod
     def is_valid_variable_name(variable_name: str) -> bool:
+        # '[a-zA-Z0-9_]+'
         if len(variable_name) == 0:
             return False
         if not variable_name[0].isalpha():

@@ -3,7 +3,7 @@ from .. import register_command
 from typing import override
 
 @register_command("label")
-class SayCommand(Command):
+class LabelCommand(Command):
     """label 命令，用于标记 goto 的位置"""
     @override
     def execute(self):

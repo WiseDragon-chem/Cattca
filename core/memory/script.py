@@ -85,8 +85,9 @@ class Script:
                     else:
                         tmp_str_lst.append(self.script_text[self.index])
                     self.index += 1
-            tmp_str_lst[len(tmp_str_lst) -1] += self.script_text[self.index]
-            self.index += 1
+            else:
+                tmp_str_lst[len(tmp_str_lst) -1] += self.script_text[self.index]
+                self.index += 1
         self.index = 0
         self.script_text = ''.join(tmp_str_lst)
         self.len_text = len(self.script_text)
