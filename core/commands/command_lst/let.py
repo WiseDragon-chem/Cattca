@@ -13,12 +13,12 @@ class SayCommand(Command):
         if not self.args:
             raise TypeError('Missing parameters')
         arg = ''.join(self.args)
-        arg = arg.split('=')
-        if len(arg) != 2:
+        eq_index = arg.find('=')
+        if eq_index == -1:
             raise TypeError('Invalid parameters')
-        result = FormulaParser.evaluate_expression(arg[1], self.script.variables)
-        arg[0] = arg[0].strip()
-        if not FormatChecker.is_valid_variable_name(arg[0]):
+        result = FormulaParser.evaluate_expression(arg[eq_index+1:], self.script.variables)
+        arg_name = arg[:eq_index].strip()
+        if not FormatChecker.is_valid_variable_name(arg_name):
             raise NameError('Invalid variable name')
-        self.script.variables.declare(arg[0], result)
+        self.script.variables.declare(arg_name, result)
         
