@@ -60,7 +60,7 @@ class VariableTable:
         '''赋值一个变量'''
         for scope in reversed(self.scopes):
             if name in scope:
-                scope[name].value = value
+                scope[name] = value
                 return
                 
         raise Exception(f"variable {name} hasn't declared!")
@@ -69,7 +69,7 @@ class VariableTable:
         '''获取一个变量的值'''
         for scope in reversed(self.scopes):
             if name in scope:
-                return scope[name].value
+                return scope[name]
         
         raise Exception(f"variable {name} hasn't declared!")
     

@@ -1,5 +1,5 @@
-# </if expression -> label/>
-如果表达式expression为true，那么跳转到label所在行继续执行.
+# </if expression -> command />
+如果表达式expression为true，那么执行command指令.
 
 # usage
 ```cattca
@@ -7,7 +7,8 @@
 let a = 3;
 label loop_start;
 log a;
-if a>0 -> loop_start;
+set a = a-1;
+if a>0 -> goto loop_start;
 exit;
 />
 ```

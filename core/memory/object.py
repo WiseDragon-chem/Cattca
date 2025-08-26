@@ -6,7 +6,8 @@ class CattcaObject:
         self.methods = {}
     
     def __eq__(self, value):
-        return self.value == value
+        from . import TypeRegistry
+        return TypeRegistry.get_type('boolean')(self.value == value.value)
     
     def __str__(self):
         return str(self.value)
@@ -41,3 +42,16 @@ class CattcaObject:
         if not name in self.methods:
             raise AttributeError(f'{self.type}.{name} not exist')
         return self.methods[name]
+    
+    @property
+    def is_true(self) -> bool:
+        if self.type == 'null':
+            return False
+        elif self.type == 'boolean':
+            return self.value
+        elif self.type == 'number':
+            return self.value != 0
+        elif self.type == 'string':
+            return self.value != ''
+        else:
+            return True

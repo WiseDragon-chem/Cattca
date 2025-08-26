@@ -5,7 +5,7 @@ from typing import override
 @TypeRegistry.register("boolean")
 class CattcaBoolean(CattcaObject):
     def __init__(self, value: bool):
-        super().__init__("number", value)
+        super().__init__("boolean", value)
 
     def to_number(self):
         from .number import CattcaNumber

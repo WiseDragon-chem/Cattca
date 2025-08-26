@@ -193,7 +193,7 @@ class FormulaParser:
         if len(stack) != 1:
             raise SyntaxError("Invalid expression")
             
-        return DynamicVariableSystem.create_object(stack[0])
+        return stack[0]
 
     @staticmethod
     def apply_operator(operator: str, left: CattcaObject, right: CattcaObject) -> CattcaObject:
