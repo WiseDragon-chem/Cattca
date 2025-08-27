@@ -1,24 +1,19 @@
-from core.memory import TypeRegistry
+from core.parser import Parser
 
-Num = TypeRegistry.get_type("number")
-Bool = TypeRegistry.get_type("boolean")
-String = TypeRegistry.get_type("string")
+text = '''
+</
+let a;
+let b;
+input text a;
+log 1;
+input text b;
+log b;
+/>'''
 
-a = Num(5)
-b = Bool(True)
-c = String('11\n4')
-d = String('224')
-
-print((b+a).value)
-print((a+b).value)
-print((b<a).value)
-print((c+d).value)
-
-from core.utils.formula_parser import FormulaParser
-from core.memory.variable_system import VariableTable
-table = VariableTable()
-
-table.declare('c', c)
-table.declare('d', d)
-
-print(FormulaParser.evaluate_expression('c + d', table).value)
+parser = Parser(text)
+parser = parser.parse()
+print('next1', next(parser))
+print('------------------')
+print(parser.send(100))
+#print(parser.send(120))
+# print('next2', next(parser))

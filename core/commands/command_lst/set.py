@@ -2,8 +2,6 @@ from ..command import Command
 from .. import register_command
 from typing import override
 from ...utils.formula_parser import FormulaParser
-from ...utils.format_checker import FormatChecker
-
 
 @register_command("set")
 class SetCommand(Command):

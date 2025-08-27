@@ -1,6 +1,11 @@
 from .memory.script import Script
 from .commands.parser import execute_line, parse_line
+import traceback
+
 class Parser:
+
+    def __init__(self, text: str):
+        self.script = self.init_script(text)
 
     @staticmethod
     def init_script(text: str) -> Script:
@@ -23,37 +28,47 @@ class Parser:
             print(f'SyntaxError: {e}')
         return script
 
-    @staticmethod
-    def next(script: Script):
-        try:
-            output = ''
-            while(script.status == 'CONTINUE'):
-                output += Parser._get_text_til_command(script)
-                if script.index == script.len_text:
-                    script.status = 'EXIT'
+    def parse(self):
+        while True:
+            try:
+                output = ''
+                while self.script.status == 'CONTINUE':
+                    output += Parser._get_text_til_command(self.script)
+                    if self.script.index == self.script.len_text:
+                        self.script.status = 'EXIT'
+                        break
+                    command = self.script.get_command()
+                    #print(command)
+                    temp_output = execute_line(command, self.script)
+                    if temp_output != None:
+                        output += temp_output
+                if self.script.status == 'EXIT':
+                    yield output
                     break
-                command = script.get_command()
-                temp_output = execute_line(command, script)
-                if temp_output != None:
-                    output += temp_output
-            return output
-        except SyntaxError as e:
-            print(f'SyntaxError: {e}')
-        except ValueError as e:
-            print(f'ValueError: {e}')
-        except IndexError as e:
-            print(f'IndexError: {e}')
-        except KeyError as e:
-            print(f'KeyError: {e}')
-        except TypeError as e:
-            print(f'TypeError: {e}')
-        except NameError as e:
-            print(f'NameError: {e}')
-        except AttributeError as e:
-            print(f'AttributeError: {e}')
-        except Exception as e:
-            print(f'Exception: {e}')
-
+                elif self.script.status == 'AWAIT':
+                    inp = yield output
+                    self.script.clear_input()
+                    self.script.set_input(inp)
+                    self.script.status = 'CONTINUE'
+                else:
+                    yield output
+                
+            except SyntaxError as e:
+                print(f'SyntaxError: {e}');break
+            except ValueError as e:
+                print(f'ValueError: {e}');break
+            except IndexError as e:
+                print(f'IndexError: {e}');break
+            except KeyError as e:
+                print(f'KeyError: {e}');break
+            except TypeError as e:
+                print(f'TypeError: {e}');break
+            except NameError as e:
+                print(f'NameError: {e}');break
+            except AttributeError as e:
+                print(f'AttributeError: {e}');break
+            except Exception as e:
+                print(f'Exception: {e}');break
 
     @staticmethod
     def _get_text_til_command(script: Script) -> str:

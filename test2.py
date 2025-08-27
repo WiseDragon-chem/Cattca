@@ -1,20 +1,17 @@
 from core.parser import Parser
 
-text = '''</
-let a;
-set a=7;
-log a+3;
+text = '''
+</
+let a = 1;
+let b;
+if a == 1 ->input text a;
+log a;
+input text b;
+log a;
 />'''
 
-parser = Parser()
-test_script = parser.init_script(text)
-# print('---raw---text---')
-# print(test_script.script_text)
-# print('---label-lst----')
-# print(test_script.labels.to_dict())
-# print('---log---start---')
-# text = parser.next(test_script)
-# print('---log---stop----')
-# print('-------------------------------------------------------')
-# print(text)
-print(parser.next(test_script))
+parser = Parser(text)
+parser = parser.parse()
+print('next1', next(parser))
+print(parser.send(100))
+# print('next2', next(parser))

@@ -1,8 +1,7 @@
 from core.parser import Parser
 from core.memory.script import Script
 
-text = '''
-</
+text = '''</
 let good = false;
 let a = 10;
 let b = 1;
@@ -30,13 +29,10 @@ if mid * mid > target -> set r = mid-1;
 if mid * mid == target -> goto end;
 goto loopstart;
 label end;
-log mid;
-/>
-'''
+log mid;/>'''
 
-parser = Parser()
-test_script = parser.init_script(text)
-text = parser.next(test_script)
-print('-------------------------------------------------------')
-print(text)
+parser = Parser(text)
+obj = parser.parse()
+print(next(obj))
+print('================================')
 

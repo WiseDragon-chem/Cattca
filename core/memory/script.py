@@ -22,6 +22,10 @@ class Script:
         self.wrapper = wrapper
         self.labels = label_lst()
         self.variables = VariableTable()
+
+        self.output_area = ''
+        self.input_area = ''
+        self.input_request_message = ''
     
     def get_char(self):
         return self.script_text[self.index]
@@ -92,3 +96,19 @@ class Script:
         self.script_text = ''.join(tmp_str_lst)
         self.len_text = len(self.script_text)
         return self.script_text
+    
+    def append_output(self, text: str):
+        """将输出追加至输出区"""
+        self.output_area = self.output_area + text
+
+    def set_input(self, text: str):
+        if self.input_area != '':
+            raise RuntimeError('Input area has not been cleared. Clean it in advance.')
+        self.input_area = text
+
+    def clear_input(self):
+        self.input_area = ''
+
+    def get_input(self) -> str:
+        return self.input_area
+    
