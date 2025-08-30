@@ -59,26 +59,22 @@ class Script:
         
         len_left = len(self.wrapper[0])
         len_right = len(self.wrapper[1])
-
-        # 命令的文本内容从左括号之后开始
         command_start_index = self.index + len_left
-        # 从 command_start_index 开始查找右括号
         command_end_index = self.script_text.find(self.wrapper[1], command_start_index)
 
-        # 如果找不到右括号，说明语法错误，抛出异常
         if command_end_index == -1:
             raise SyntaxError(f"Unclosed command starting at index {self.index}. Expected '{self.wrapper[1]}'.")
 
-        # 提取命令文本，并使用 .strip() 去除首尾的空白字符（空格、制表符、换行符等）
         command_text = self.script_text[command_start_index:command_end_index].strip()
-        # 更新指针到整个命令（包括右括号）之后
+
         self.index = command_end_index + len_right
         return command_text
         
     def to_dict(self):
         return {'script_text': self.script_text, 'index': self.index, 'status': self.status, 'len_text': self.len_text, 'wrapper': self.wrapper, 'labels': self.labels}
     
-    def turn_all_semicolon_into_wrapper(self): # 把所有的 '</''/>'内的 ';' 变成 '/></'
+    def turn_all_semicolon_into_wrapper(self): 
+        """把所有的 '</''/>'内的 ';' 变成 '/></'"""
         self.index = 0
         tmp_str_lst = ['']
         while self.index < self.len_text:
