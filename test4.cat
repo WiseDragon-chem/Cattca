@@ -1,0 +1,7 @@
+你玩原神吗
+</ label 1 ;
+input case
+:'对' -> goto 2:
+'不玩' -> goto 1;
+label 2/>
+原来你也玩原神！

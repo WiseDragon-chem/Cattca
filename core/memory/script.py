@@ -25,7 +25,7 @@ class Script:
 
         self.output_area = ''
         self.input_area = ''
-        self.input_request_message = ''
+        self.input_request_message = []
     
     def get_char(self):
         return self.script_text[self.index]

@@ -57,7 +57,8 @@ class InputCommand(Command):
         case_detail, var_name = self._parse_case()
         if value not in case_detail.keys():
             raise ValueError(f'"{value}" is not a option for this input case. Input {' or '.join(case_detail.keys())} instead.')
-        self.script.variables.assign(var_name, TypeRegistry.get_type('string')(value))
+        if not var_name == '':
+            self.script.variables.assign(var_name, TypeRegistry.get_type('string')(value))
         execute_line(case_detail[value], self.script)
 
 
