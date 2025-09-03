@@ -21,4 +21,4 @@ if __name__ == "__main__":
     parser_parse = parser.parse()
     print(next(parser_parse))
     while(parser.script.status != 'EXIT'):
-        parser_parse.send(input(parser.script.input_request_message))
+        print(parser_parse.send(input(parser.script.input_request_message)))
