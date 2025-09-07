@@ -1,6 +1,6 @@
 from .memory.script import Script
 from .commands.parser import execute_line, parse_line
-import traceback
+from .exceptions import *
 
 class Parser:
 
@@ -24,12 +24,14 @@ class Parser:
                         script.index+=1
                 script.index = 0
             init_labels(script)
-        except SyntaxError as e:
-            print(f'SyntaxError: {e}')
+        except CattcaSyntaxError as e:
+            print(f'In index {script.index}:')
+            print(e)
         return script
 
     def parse(self):
         while True:
+            command = ''
             try:
                 output = ''
                 while self.script.status == 'CONTINUE':
@@ -52,23 +54,16 @@ class Parser:
                     self.script.status = 'CONTINUE'
                 else:
                     yield output
-                
-            except SyntaxError as e:
-                print(f'SyntaxError: {e}');break
-            except ValueError as e:
-                print(f'ValueError: {e}');break
-            except IndexError as e:
-                print(f'IndexError: {e}');break
-            except KeyError as e:
-                print(f'KeyError: {e}');break
-            except TypeError as e:
-                print(f'TypeError: {e}');break
-            except NameError as e:
-                print(f'NameError: {e}');break
-            except AttributeError as e:
-                print(f'AttributeError: {e}');break
-            except Exception as e:
-                print(f'Exception: {e}');break
+            except CattcaAwaitException:
+                pass
+            except CattcaExitException:
+                pass
+            except CattcaException as e:
+                print(f'In index {self.script.index}:')
+                print(f'   {command}')
+                print('   ' + '^'*len(command))
+                print(e)
+                break
 
     @staticmethod
     def _get_text_til_command(script: Script) -> str:

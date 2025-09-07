@@ -3,6 +3,7 @@ from typing import List, Union
 from ..memory.variable_system import VariableTable, DynamicVariableSystem
 from ..memory.object import CattcaObject
 from ..memory import TypeRegistry
+from ..exceptions import *
 
 class FormulaParser:
     # 定义运算符优先级（数值越大优先级越高）
@@ -42,7 +43,7 @@ class FormulaParser:
             if char in ('"', "'"):
                 end_quote = expression.find(char, i + 1)
                 if end_quote == -1:
-                    raise SyntaxError("Unclosed string literal")
+                    raise CattcaSyntaxError("Unclosed string literal")
                 tokens.append(expression[i:end_quote + 1])
                 i = end_quote + 1
                 continue
@@ -87,7 +88,7 @@ class FormulaParser:
                 tokens.append(expression[i:j])
                 i = j
             else:
-                raise SyntaxError(f"Unexpected character: {char}")
+                raise CattcaSyntaxError(f"Unexpected character: {char}")
                 
         return tokens
 
@@ -112,7 +113,7 @@ class FormulaParser:
                 while stack and stack[-1] != '(':
                     output.append(stack.pop())
                 if not stack or stack[-1] != '(':
-                    raise SyntaxError("Mismatched parentheses")
+                    raise CattcaSyntaxError("Mismatched parentheses")
                 stack.pop()  # 弹出左括号
             else:
                 # 操作数直接输出
@@ -121,7 +122,7 @@ class FormulaParser:
         # 弹出剩余运算符
         while stack:
             if stack[-1] == '(':
-                raise SyntaxError("Mismatched parentheses")
+                raise CattcaSyntaxError("Mismatched parentheses")
             output.append(stack.pop())
             
         return output
@@ -161,7 +162,7 @@ class FormulaParser:
         if token.lower() == 'null':
             return TypeRegistry.get_type('null')()
             
-        raise NameError(f"Undefined variable or invalid literal: {token}")
+        raise CattcaNameError(f"Undefined variable or invalid literal: {token}")
 
     @staticmethod
     def evaluate_expression(expression: str, table: VariableTable) -> CattcaObject:
@@ -180,7 +181,7 @@ class FormulaParser:
             if token in FormulaParser.OPERATOR_PRECEDENCE:
                 # 处理运算符
                 if len(stack) < 2:
-                    raise SyntaxError("Insufficient operands")
+                    raise CattcaSyntaxError("Insufficient operands")
                 right = stack.pop()
                 left = stack.pop()
                 result = FormulaParser.apply_operator(token, left, right)
@@ -191,7 +192,7 @@ class FormulaParser:
                 stack.append(value)
                 
         if len(stack) != 1:
-            raise SyntaxError("Invalid expression")
+            raise CattcaSyntaxError("Invalid expression")
             
         return stack[0]
 
@@ -220,6 +221,6 @@ class FormulaParser:
             elif operator == '>=':
                 return left >= right
             else:
-                raise ValueError(f"Unsupported operator: {operator}")
+                raise CattcaValueError(f"Unsupported operator: {operator}")
         except Exception as e:
-            raise TypeError(f"Operation {operator} not supported between {type(left).__name__} and {type(right).__name__}")
+            raise CattcaTypeError(f"Operation {operator} not supported between {type(left).__name__} and {type(right).__name__}")

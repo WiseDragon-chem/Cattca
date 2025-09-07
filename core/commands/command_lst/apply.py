@@ -2,6 +2,7 @@ from ..command import Command
 from .. import register_command
 from typing import override
 from ...utils.formula_parser import FormulaParser
+from ...exceptions import *
 
 @register_command("apply")
 class ApplyCommand(Command):
@@ -9,6 +10,5 @@ class ApplyCommand(Command):
     @override
     def execute(self):
         if not self.args:
-            raise TypeError('Missing parameters')
-            return
+            raise CattcaTypeError('Missing parameters')
         return FormulaParser.evaluate_expression(" ".join(self.args), self.script.variables)

@@ -1,6 +1,7 @@
 from typing import List, Tuple, Optional
 from ..memory.object import CattcaObject
 from ..memory.script import Script
+from ..exceptions import *
 from . import COMMANDS
 
 def parse_line(line: str) -> Tuple[str, Optional[List[str]]]:
@@ -30,4 +31,4 @@ def execute_line(line: str, script: Script) -> None:
         output = str(output)
         return output
     else:
-        raise SyntaxError(f"Unknown command: {command_name}")
+        raise CattcaSyntaxError(f"Unknown command: {command_name}")

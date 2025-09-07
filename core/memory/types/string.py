@@ -1,6 +1,7 @@
 from ..object import CattcaObject
 from .. import TypeRegistry
 from typing import override
+from ...exceptions import *
 
 @TypeRegistry.register("string")
 class CattcaString(CattcaObject):
@@ -13,5 +14,5 @@ class CattcaString(CattcaObject):
         if other.type == 'string':
             return CattcaString(self.value + other.value)
         else:
-            raise TypeError(f"{other.type} can not be added with a string")
+            raise CattcaTypeError(f"{other.type} can not be added with a string")
     

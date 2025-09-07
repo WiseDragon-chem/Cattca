@@ -1,6 +1,7 @@
 from ..command import Command
 from .. import register_command
 from typing import override
+from ...exceptions import *
 
 @register_command("say")
 class SayCommand(Command):
@@ -8,6 +9,5 @@ class SayCommand(Command):
     @override
     def execute(self):
         if not self.args:
-            raise TypeError('Missing parameters')
-            return
+            raise CattcaTypeError('Missing parameters')
         print(" ".join(self.args))

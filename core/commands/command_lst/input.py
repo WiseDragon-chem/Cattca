@@ -4,6 +4,7 @@ from typing import override
 from ...utils.formula_parser import FormulaParser
 from ...memory import TypeRegistry
 from ..parser import execute_line
+from ...exceptions import *
 
 @register_command("input")
 class InputCommand(Command):
@@ -13,9 +14,9 @@ class InputCommand(Command):
     @override
     def execute(self):
         if not self.args:
-            raise TypeError('Missing parameters')
+            raise CattcaTypeError('Missing parameters')
         if self.args[0] not in self.input_method:
-            raise AttributeError(f'{' '.join(self.args)} is not a option for input, use "text" or "case".')
+            raise CattcaAttributeError(f'{' '.join(self.args)} is not a option for input, use "text" or "case".')
         if self.args[0] == 'text':
             if self.script.input_area == '':
                 self._exec_text()
@@ -34,10 +35,10 @@ class InputCommand(Command):
         if len(self.args) == 3:
             self.script.input_request_message = FormulaParser.parse_value(self.args[2])
         if len(self.args) <= 1 or len(self.args) >= 4:
-            raise AttributeError(f'get {len(self.args)} parameters for input, expect 1 or 2')
+            raise CattcaAttributeError(f'get {len(self.args)} parameters for input, expect 1 or 2')
         varible_name = self.args[1]
         if not self.script.variables.value_exist(varible_name):
-            raise NameError(f'Name {varible_name} is not declared in this scope.')
+            raise CattcaNameError(f'Name {varible_name} is not declared in this scope.')
         self._moveback_index_til_command()
 #        print(self.script.index, 'after')
 
@@ -56,7 +57,7 @@ class InputCommand(Command):
         value = str(self.script.get_input())
         case_detail, var_name = self._parse_case()
         if value not in case_detail.keys():
-            raise ValueError(f'"{value}" is not a option for this input case. Input {' or '.join(case_detail.keys())} instead.')
+            raise CattcaValueError(f'"{value}" is not a option for this input case. Input {' or '.join(case_detail.keys())} instead.')
         if not var_name == '':
             self.script.variables.assign(var_name, TypeRegistry.get_type('string')(value))
         execute_line(case_detail[value], self.script)
@@ -76,29 +77,29 @@ class InputCommand(Command):
         if ':' in self.args[0]:  
             self.args[1] = ':' + self.args[1]
         if len(self.args) < 2:
-            raise AttributeError(f'Missing parameters for input case.')
+            raise CattcaAttributeError(f'Missing parameters for input case.')
         varible_name = ''
         if not ':' in self.args[1]:
             varible_name = self.args[1]
             if not self.script.variables.value_exist(varible_name):
-                raise NameError(f'Name {varible_name} is not declared in this scope.')
+                raise CattcaNameError(f'Name {varible_name} is not declared in this scope.')
         arg = ' '.join(self.args[1:])
         args = arg.split(':')
         if args[0].strip() != varible_name:
             #对于所有合法的输入，变量名都会被且分到args[0]
             #特别的，当不提供变量名时，其为空，与varible_name的初始值恰好相同。
-            raise SyntaxError('Missing ":" in input case command.')
+            raise CattcaSyntaxError('Missing ":" in input case command.')
         args = args[1:] #args总是长度大于等于1.
         for case_str in args:
             if not '->' in case_str:
-                raise SyntaxError(f'Missing "->" in input case "{case_str}"')
+                raise CattcaSyntaxError(f'Missing "->" in input case "{case_str}"')
             case_list = case_str.split('->')
             if len(case_list) != 2:
-                raise AttributeError('Too much "->" for input case command.')
+                raise CattcaAttributeError('Too much "->" for input case command.')
             description_str, command_str = case_list
             description = str(FormulaParser.evaluate_expression(description_str, self.script.variables))
             if description in ret.keys():
-                raise AttributeError(f'Two same case string in one input command: {description_str}.')
+                raise CattcaAttributeError(f'Two same case string in one input command: {description_str}.')
             ret[description] = command_str
 
         return (ret, varible_name)

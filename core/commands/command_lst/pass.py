@@ -1,6 +1,7 @@
 from ..command import Command
 from .. import register_command
 from typing import override
+from ...exceptions import *
 
 @register_command("pass")
 class PassCommand(Command):
@@ -8,5 +9,5 @@ class PassCommand(Command):
     @override
     def execute(self):
         if self.args:
-            raise AttributeError('Invalid parameters for pass.')
+            raise CattcaAttributeError('Invalid parameters for pass.')
         return
